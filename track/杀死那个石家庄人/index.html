@@ -203,11 +203,11 @@
         if (isPlaying) {
             clearInterval(intervalId);
             audio.pause();
-            playBtn.src = "https://img.icons8.com/material-rounded/24/000000/play.png";
+            playBtn.src = "https://wuxiandianmusic.github.io/file/img/play.png";
         } else {
             intervalId = setInterval(rotateCover, 50);
             audio.play();
-            playBtn.src = "https://img.icons8.com/material-rounded/24/000000/pause.png";
+            playBtn.src = "https://wuxiandianmusic.github.io/file/img/pause.png";
         }
         isPlaying = !isPlaying;
     }
