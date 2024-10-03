@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>搜索</title>
+    <title>静态搜索结果</title>
     <style>
         /* 样式保持不变 */
         body {
@@ -149,42 +149,34 @@
         }
 
         // 搜索并展示结果
-function search() {
-    const query = document.getElementById('search-input').value.toLowerCase();
-    const tab = document.querySelector('.tabs button.active').id.replace('tab-', '');
-    const resultsList = document.getElementById('results-list');
-    resultsList.innerHTML = '';
+        function search() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const resultsList = document.getElementById('results-list');
+            resultsList.innerHTML = '';
 
-    const songs = xmlDoc.getElementsByTagName('song');
-    let resultsFound = false;
+            const songs = xmlDoc.getElementsByTagName('song');
+            let resultsFound = false;
 
-    for (let i = 0; i < songs.length; i++) {
-        const title = songs[i].getElementsByTagName('title')[0].textContent.toLowerCase();
-        const artist = songs[i].getElementsByTagName('artist')[0].textContent.toLowerCase();
-        const album = songs[i].getElementsByTagName('album')[0].textContent.toLowerCase();
-        const url = songs[i].getElementsByTagName('url')[0].textContent; // 这里保持原有 URL
+            for (let i = 0; i < songs.length; i++) {
+                const title = songs[i].getElementsByTagName('title')[0].textContent.toLowerCase();
+                const artist = songs[i].getElementsByTagName('artist')[0].textContent.toLowerCase();
+                const album = songs[i].getElementsByTagName('album')[0].textContent.toLowerCase();
+                const url = songs[i].getElementsByTagName('url')[0].textContent;
 
-        let match = false;
-        if (tab === 'songs' && title.includes(query)) {
-            match = true;
-        } else if (tab === 'artists' && artist.includes(query)) {
-            match = true;
-        } else if (tab === 'albums' && album.includes(query)) {
-            match = true;
+                // 检查查询是否匹配
+                if (title.includes(query) || artist.includes(query) || album.includes(query)) {
+                    resultsFound = true;
+                    const li = document.createElement('li');
+                    // 修改格式为 "歌手 - 歌曲名"
+                    li.innerHTML = `<a href="${url}">${artist} - ${title}</a>`;
+                    resultsList.appendChild(li);
+                }
+            }
+
+            if (!resultsFound) {
+                resultsList.innerHTML = '<li>没有找到相关结果</li>';
+            }
         }
-
-        if (match) {
-            resultsFound = true;
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="${url.startsWith('http') ? url : 'https://wuxiandianmusic.github.io/track/' + encodeURIComponent(title)}">${title} - ${artist} (${album})</a>`;
-            resultsList.appendChild(li);
-        }
-    }
-
-    if (!resultsFound) {
-        resultsList.innerHTML = '<li>没有找到相关结果</li>';
-    }
-}
 
         // 切换标签页
         function setTab(tab) {
