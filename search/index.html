@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>静态搜索结果</title>
+    <style>
+        /* 样式保持不变 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .header .download {
+            background-color: #ffcc00;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .search-container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .search-container input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .search-container button:hover {
+            background-color: #45a049;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .tabs button {
+            background: none;
+            border: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .tabs button.active {
+            border-bottom: 2px solid #333;
+        }
+
+        .results {
+            padding: 20px;
+        }
+
+        .results h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .results ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .results ul li {
+            background-color: #ffffff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .results ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#" class="logo">无线电</a>
+        <a href="#" class="download">下载APP</a>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="搜索歌曲、艺术家或专辑">
+        <button onclick="search()">搜索</button>
+    </div>
+
+    <div class="tabs">
+        <button id="tab-songs" class="active" onclick="setTab('songs')">歌曲</button>
+        <button id="tab-artists" onclick="setTab('artists')">艺术家</button>
+        <button id="tab-albums" onclick="setTab('albums')">专辑</button>
+    </div>
+
+    <div class="results">
+        <h2>搜索结果</h2>
+        <ul id="results-list">
+            <!-- 搜索结果将在此显示 -->
+        </ul>
+    </div>
+
+    <script>
+        let xmlDoc;
+
+        // 加载XML文件
+        function loadXMLDoc(callback) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    xmlDoc = this.responseXML;
+                    callback();
+                }
+            };
+            xhttp.open("GET", "songs.xml", true);
+            xhttp.send();
+        }
+
+        // 搜索并展示结果
+        function search() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const tab = document.querySelector('.tabs button.active').id.replace('tab-', '');
+            const resultsList = document.getElementById('results-list');
+            resultsList.innerHTML = '';
+
+            const songs = xmlDoc.getElementsByTagName('song');
+            let resultsFound = false;
+
+            for (let i = 0; i < songs.length; i++) {
+                const title = songs[i].getElementsByTagName('title')[0].textContent.toLowerCase();
+                const artist = songs[i].getElementsByTagName('artist')[0].textContent.toLowerCase();
+                const album = songs[i].getElementsByTagName('album')[0].textContent.toLowerCase();
+                const url = songs[i].getElementsByTagName('url')[0].textContent;
+
+                let match = false;
+                if (tab === 'songs' && title.includes(query)) {
+                    match = true;
+                } else if (tab === 'artists' && artist.includes(query)) {
+                    match = true;
+                } else if (tab === 'albums' && album.includes(query)) {
+                    match = true;
+                }
+
+                if (match) {
+                    resultsFound = true;
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${url}">${title} - ${artist} (${album})</a>`;
+                    resultsList.appendChild(li);
+                }
+            }
+
+            if (!resultsFound) {
+                resultsList.innerHTML = '<li>没有找到相关结果</li>';
+            }
+        }
+
+        // 切换标签页
+        function setTab(tab) {
+            document.querySelectorAll('.tabs button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            search();
+        }
+
+        // 初始化，加载XML并绑定事件
+        window.onload = function() {
+            loadXMLDoc(function() {
+                search();
+            });
+        };
+    </script>
+</body>
+</html>
