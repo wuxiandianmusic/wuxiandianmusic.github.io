@@ -149,35 +149,7 @@
         }
 
         // 搜索并展示结果
-        function search() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const resultsList = document.getElementById('results-list');
-            resultsList.innerHTML = '';
-
-            const songs = xmlDoc.getElementsByTagName('song');
-            let resultsFound = false;
-
-            for (let i = 0; i < songs.length; i++) {
-                const title = songs[i].getElementsByTagName('title')[0].textContent.toLowerCase();
-                const artist = songs[i].getElementsByTagName('artist')[0].textContent.toLowerCase();
-                const album = songs[i].getElementsByTagName('album')[0].textContent.toLowerCase();
-                const url = songs[i].getElementsByTagName('url')[0].textContent;
-
-                // 检查查询是否匹配
-                if (title.includes(query) || artist.includes(query) || album.includes(query)) {
-                    resultsFound = true;
-                    const li = document.createElement('li');
-                    // 修改格式为 "歌手 - 歌曲名"
-                    li.innerHTML = `<a href="${url}">${artist} - ${title}</a>`;
-                    resultsList.appendChild(li);
-                }
-            }
-
-            if (!resultsFound) {
-                resultsList.innerHTML = '<li>没有找到相关结果</li>';
-            }
-        }
-
+        
         // 切换标签页
         function setTab(tab) {
             document.querySelectorAll('.tabs button').forEach(button => {
