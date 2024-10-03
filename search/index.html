@@ -168,7 +168,7 @@
                     resultsFound = true;
                     const li = document.createElement('li');
                     // 修改格式为 "歌手 - 歌曲名"
-                    li.innerHTML = `<a href="${url.startsWith('http') ? url : 'https://wuxiandianmusic.github.io/track/' + encodeURIComponent(title)}">${artist} - ${title}</a>`;
+                    li.innerHTML = `<a href="${url.startsWith('http') ? url : window.location.origin + '/track/' + encodeURIComponent(title)}">${artist} - ${title}</a>`;
                     resultsList.appendChild(li);
                 }
             }
