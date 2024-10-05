@@ -49,4 +49,25 @@
         <album>万能青年旅店</album>
         <url>/track/洋鸟消夏录</url>
     </song>
+    <song>
+        <id>8</id>
+        <title>出发</title>
+        <artist>青年合唱团</artist>
+        <album>美丽的新世界 （2）战争与和平</album>
+        <url>/track/出发</url>
+    </song>
+    <song>
+        <id>9</id>
+        <title>历史的伤口</title>
+        <artist>群星</artist>
+        <album>美丽的新世界 （2）战争与和平</album>
+        <url>/track/历史的伤口</url>
+    </song>
+    <song>
+        <id>10</id>
+        <title>皇后大道东</title>
+        <artist>罗大佑，蒋志光</artist>
+        <album>皇后大道东</album>
+        <url>/track/皇后大道东</url>
+    </song>
 </catalog>
