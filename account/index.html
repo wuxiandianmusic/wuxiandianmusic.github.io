@@ -3,176 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>无线电--音乐无国界~</title>
+    <title>账户页面</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             background-color: #f0f0f0;
         }
-
-        .header {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header .logo {
-            font-size: 24px;
-            color: #333;
-            text-decoration: none;
-        }
-
-        .header .download {
-            background-color: #ffcc00;
-            padding: 5px 10px;
-            border-radius: 4px;
-            text-decoration: none;
-            color: #333;
-        }
-
         .account-container {
-            padding: 20px;
             text-align: center;
-        }
-
-        .account-container img {
-            border-radius: 50%; /* 使头像为圆形 */
-        }
-
-        .account-container input {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        .account-container button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4caf50;
-            color: white;
-            cursor: pointer;
-        }
-
-        .account-container button:hover {
-            background-color: #45a049;
-        }
-
-        .footer {
-            background-color: #ffffff;
             padding: 20px;
-            text-align: center;
-            color: #333;
-            border-top: 1px solid #e0e0e0;
-            margin-top: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
-        .bottom-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 10px 0;
-        }
-
-        .bottom-bar a {
-            text-decoration: none;
-            color: #333;
-            font-size: 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .bottom-bar a img {
-            width: 24px;
-            height: 24px;
+        img {
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="#" class="logo">无线电</a>
-        <a href="#" class="download">下载APP</a>
-    </div>
-
     <div class="account-container">
-        <!-- 假设用户已登录，静态显示内容 -->
-        <img src="uploads/default_avatar.png" alt="头像" width="100"> <!-- 默认头像 -->
-        <h2>欢迎，用户名</h2> <!-- 这里可以替换为实际用户名 -->
-        <p>个性签名内容（来自 bio.txt）</p> <!-- 这里可以替换为实际个性签名 -->
-        
-        <a href="https://github.com/wuxiandianmusic/wuxiandianmusic" target="_blank">
-            <button>查看储存库</button>
-        </a>
-        <a href="playlist.html">
-            <button>管理播放列表</button>
-        </a>
-        <form action="my_favorites.html">
-            <button type="submit">我的收藏</button>
-        </form>
-        <a href="https://github.com/wuxiandianmusic/wuxiandianmusic.github.io/discussions" target="_blank">
-            <button>打开音乐馆</button>
-        </a>
-        <a href="logout.html">登出</a>
-
-        <!-- 如果用户未登录，显示提示信息 -->
-        <div id="login-prompt" style="display: none;">
-            <h2>请登录</h2>
-            <a href="login.html">
-                <button>登录</button>
-            </a>
+        <h2>账户信息</h2>
+        <div id="user-info"></div>
+        <div id="login-link" style="display:none;">
+            <a href="https://github.com/login/oauth/authorize?client_id=YOUR_CLIENT_ID&scope=user:email">使用 GitHub 登录</a>
         </div>
     </div>
 
-    <div class="footer">
-        <p>Copyright © 2023 - 2024 Walkman. All Rights Reserved.</p>
-        <p>安装无线电 发现更多精彩</p>
-    </div>
-
-    <div class="bottom-bar">
-        <a href="index.html">
-            <img src="img/home.png" alt="首页">
-            首页
-        </a>
-        <a href="search.html">
-            <img src="img/search.png" alt="发现">
-            发现
-        </a>
-        <a href="#">
-            <img src="img/library.png" alt="音乐馆">
-            音乐馆
-        </a>
-        <a href="account.html">
-            <img src="img/user.png" alt="我的">
-            我的
-        </a>
-    </div>
-
     <script>
-        // 模拟用户登录状态
-        var isLoggedIn = false; // 将其更改为 true 表示用户已登录
+        // 获取 cookie 中的访问令牌
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
 
-        if (!isLoggedIn) {
-            document.querySelector('.account-container img').src = 'uploads/default_avatar.png';
-            document.querySelector('h2').textContent = '请登录';
-            document.getElementById('login-prompt').style.display = 'block';
+        // 设置 cookie
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        // 提取 URL 中的查询参数
+        function getQueryParams() {
+            const params = {};
+            window.location.search.substring(1).split("&").forEach(function(part) {
+                const item = part.split("=");
+                params[decodeURIComponent(item[0])] = decodeURIComponent(item[1]);
+            });
+            return params;
+        }
+
+        // 登录后获取访问令牌
+        const params = getQueryParams();
+        if (params.code) {
+            fetch('https://your-server-endpoint-to-exchange-token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    code: params.code,
+                    client_id: 'YOUR_CLIENT_ID',
+                    client_secret: 'YOUR_CLIENT_SECRET'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.access_token) {
+                    setCookie('github_token', data.access_token, 7); // 7天有效期
+                    window.location.href = '/account.html'; // 重定向到账户页面
+                } else {
+                    console.error('无法获取访问令牌');
+                }
+            });
         } else {
-            // 如果已登录，替换用户名和个性签名
-            document.querySelector('.account-container img').src = 'https://avatars.githubusercontent.com/username'; // 替换为 GitHub 头像 URL
-            document.querySelector('h2').textContent = '欢迎，GitHub用户名'; // 替换为 GitHub 用户名
-            document.querySelector('p').textContent = '这里是个性签名内容'; // 替换为从 bio.txt 中获取的内容
+            const token = getCookie('github_token'); // 从 cookie 中获取 GitHub 访问令牌
+
+            if (token) {
+                fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'User-Agent': 'YourAppName' // GitHub API 要求 User-Agent
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('无法获取用户信息');
+                })
+                .then(data => {
+                    const userInfoDiv = document.getElementById('user-info');
+                    userInfoDiv.innerHTML = `
+                        <img src="${data.avatar_url}" alt="头像" width="100">
+                        <h3>欢迎，${data.login}</h3>
+                    `;
+                })
+                .catch(error => {
+                    console.error(error);
+                    document.getElementById('login-link').style.display = 'block'; // 显示登录链接
+                });
+            } else {
+                document.getElementById('login-link').style.display = 'block'; // 显示登录链接
+            }
         }
     </script>
 </body>
