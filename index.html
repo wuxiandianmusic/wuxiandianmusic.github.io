@@ -306,7 +306,7 @@
             <img src="img/home.png" alt="首页">
             首页
         </a>
-        <a href="search.html">
+        <a href="/search/index.html">
             <img src="img/search.png" alt="发现">
             发现
         </a>
@@ -332,46 +332,42 @@
     </div>
 
     <script>
-    let isPlaying = false;
+        let isPlaying = false;
 
-    // 使用外部的 loadXML 函数获取随机歌曲链接并播放
-    function playRandomSong() {
-        // 调用 loadXML 并处理返回值
-        const fullUrl = loadXML();
-        
-        // 等待 AJAX 请求完成后执行
-        setTimeout(() => {
-            if (fullUrl) {
-                // 更新圆形播放器的 iframe 链接
-                const playerIframe = document.querySelector("#modal iframe");
-                playerIframe.src = fullUrl;
-
-                console.log("播放链接: " + fullUrl);
-
-                // 显示模态框并播放
-                toggleModal();
-            }
-        }, 1000); // 延迟1秒以确保 AJAX 请求完成
-    }
-
-    // 控制模态框的显示和隐藏
-    function toggleModal() {
-        const modal = document.getElementById("modal");
-        modal.style.display = modal.style.display === "block" ? "none" : "block";
-    }
-
-    // 点击圆形播放器时，加载随机歌曲
-    document.querySelector('.floating-player').addEventListener('click', function() {
-        playRandomSong();  // 点击圆形播放器时调用 playRandomSong
-    });
-
-    // 点击模态框外部时，关闭模态框
-    window.onclick = function(event) {
-        const modal = document.getElementById("modal");
-        if (event.target == modal) {
-            modal.style.display = "none";
+        function toggleModal() {
+            const modal = document.getElementById("modal");
+            modal.style.display = modal.style.display === "block" ? "none" : "block";
         }
-    }
-</script>
+
+        function togglePlay() {
+            const audio = document.getElementById('audio');
+            const playBtn = document.querySelector('.play-btn img');
+            const albumCover = document.querySelector('.album-cover');
+            const floatingCover = document.getElementById('floating-cover');
+            if (isPlaying) {
+                audio.pause();
+                playBtn.src = "https://img.icons8.com/material-rounded/24/000000/play.png";
+                albumCover.style.transform = "rotate(0deg)";
+                floatingCover.style.transform = "rotate(0deg)";
+            } else {
+                audio.play();
+                playBtn.src = "https://img.icons8.com/material-rounded/24/000000/pause.png";
+                albumCover.style.transform = "rotate(360deg)";
+                floatingCover.style.transform = "rotate(360deg)";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        document.getElementById('search-input').addEventListener('focus', function() {
+            window.location.href = "/search/index.html"; // Update this to your actual search page URL
+        });
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("modal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
