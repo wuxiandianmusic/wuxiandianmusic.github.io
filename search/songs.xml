@@ -78,10 +78,24 @@
         <url>/track/不再让你孤单</url>
     </song>
     <song>
-        <id>11</id>
+        <id>12</id>
         <title>最后一次温柔</title>
         <artist>陈升</artist>
         <album>魔鬼的情诗</album>
         <url>/track/最后一次温柔</url>
+    </song>
+    <song>
+        <id>13</id>
+        <title>秦皇岛</title>
+        <artist>万能青年旅店</artist>
+        <album>万能青年旅店</album>
+        <url>/track/秦皇岛</url>
+    </song>
+    <song>
+        <id>14</id>
+        <title>十万嬉皮</title>
+        <artist>万能青年旅店</artist>
+        <album>万能青年旅店</album>
+        <url>/track/十万嬉皮</url>
     </song>
 </catalog>
