@@ -98,4 +98,11 @@
         <album>万能青年旅店</album>
         <url>/track/十万嬉皮</url>
     </song>
+    <song>
+        <id>15</id>
+        <title>乌云典当记</title>
+        <artist>万能青年旅店</artist>
+        <album>乌云典当记</album>
+        <url>/track/万能青年旅店</url>
+    </song>
 </catalog>
